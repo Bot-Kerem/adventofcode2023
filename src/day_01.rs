@@ -20,10 +20,6 @@ fn main() {
         ]
     );
 
-    for digit in &digits {
-        println!("{} len is {}", digit.0, digit.0.len());
-    }
-
     let mut input_path = "input/day_01.txt".to_owned();
     let mut part = 1;
     let mut arg_next: Option<Args> = None;
