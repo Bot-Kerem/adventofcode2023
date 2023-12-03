@@ -1,11 +1,10 @@
-use std::{fs, env, collections::HashMap};
+use std::collections::HashMap;
 
-enum Args {
-    InputPath,
-    Part,
-}
+use adventofcode2023::helper::get_args;
 
 fn main() {
+    let (input, part) = get_args("day_01");
+
     let digits: HashMap<String, u32> = HashMap::from_iter(
         [
             ("one".to_owned(), 1),
@@ -19,29 +18,6 @@ fn main() {
             ("nine".to_owned(), 9),
         ]
     );
-
-    let mut input_path = "input/day_01.txt".to_owned();
-    let mut part = 1;
-    let mut arg_next: Option<Args> = None;
-    for arg in env::args() {
-        if let Some(next) = arg_next {
-            match next {
-                Args::InputPath => input_path = arg.clone(),
-                Args::Part => part = arg.parse::<u32>().unwrap(),
-            }
-            arg_next = None;
-        }
-        if arg == "-p" || arg == "--part" {
-            arg_next = Some(Args::Part);
-        } else if arg == "-i" || arg == "--input_path" {
-            arg_next = Some(Args::InputPath);
-        }
-    }
-    let input = fs::read_to_string(input_path).unwrap_or_else(|err| {
-        eprintln!("failed to open file error: {:?}", err);
-
-        std::process::exit(1);
-    });
 
     let sum = if part == 1 {
         input.lines().map(|line| {
