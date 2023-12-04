@@ -22,15 +22,14 @@ fn main() {
     let mut expect = Expect::Id;
 
     for token in tokens {
-        if token == "Card" {
-            games.push(Game { id: 0, winning_numbers: vec![], hand: vec![] });
-            expect = Expect::Id;
-        } else if token == "|" {
-            expect = Expect::Hand;
-        } else if token == ":" {
-            expect = Expect::WinningNuber;
-        } else {
-            match expect {
+        match token.as_str() {
+            "Card" => {
+                games.push(Game { id: 0, winning_numbers: vec![], hand: vec![] });
+                expect = Expect::Id;
+            },
+            "|" => expect = Expect::Hand,
+            ":" => expect = Expect::WinningNuber,
+            _ => match expect {
                 Expect::Id => games.last_mut().unwrap().id = token.parse::<u32>().unwrap(),
                 Expect::WinningNuber => games.last_mut().unwrap().winning_numbers.push(token.parse::<u32>().unwrap()),
                 Expect::Hand => games.last_mut().unwrap().hand.push(token.parse::<u32>().unwrap()),
